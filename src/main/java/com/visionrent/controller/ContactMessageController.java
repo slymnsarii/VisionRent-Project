@@ -10,6 +10,7 @@ import org.springframework.data.domain.Sort.Direction;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -61,18 +62,18 @@ public ResponseEntity<List<ContactMessageDTO>> getAllContactMessage() {
 	  // mapStruct
 	  List<ContactMessageDTO> contactMessageDTOList = contactMessageMapper.map(contactMessageList);
 	 
-	  return ResponseEntity.ok(contactMessageDTOList);
+	  return ResponseEntity.ok(contactMessageDTOList); //new ResponseEntity<>(contactMessageDTO,HttpStatus.CREATED);
 	
 }
 	
 // data çoksa getAll metodunu paging yapmak en doğrusu
 @GetMapping("/pages")
 public ResponseEntity<Page<ContactMessageDTO>> getAllContactMessageWithPage(
-																					 @RequestParam("page") int page,
-																					 @RequestParam("size") int size,
-																					 @RequestParam("sort") String prop,//neye göre sıralanacağı belirtiliyor
-																					 @RequestParam(value="direction",
-																							 						required = false, // direction required olmasın
+																 @RequestParam("page") int page,
+																 @RequestParam("size") int size,
+																 @RequestParam("sort") String prop,//neye göre sıralanacağı belirtiliyor
+																 @RequestParam(value="direction",
+																						   required = false, // direction required olmasın
 																							 						defaultValue = "DESC") Direction direction )  {
 	Pageable pageable = PageRequest.of(page, size, Sort.by(direction, prop));
 	
@@ -82,8 +83,34 @@ public ResponseEntity<Page<ContactMessageDTO>> getAllContactMessageWithPage(
 	Page<ContactMessageDTO> pageDTO = getPageDTO(contactMessagePage);
 	 return ResponseEntity.ok(pageDTO);
 	
+}
+
+
+//spesifik bir ContactMessage getirelim
+@GetMapping("/{id}")
+public ResponseEntity<ContactMessageDTO> getMessageWithPath(@PathVariable("id") Long id){
+	
+	ContactMessage contactMessage=contactMessageService.getContactMessage(id);
+	ContactMessageDTO contactMessageDTO=contactMessageMapper.contactMessageToDTO(contactMessage);
+	
+	return ResponseEntity.ok(contactMessageDTO);
+}
+
+//getById with RequestParam
+@GetMapping("/request")
+public ResponseEntity<ContactMessageDTO> getMessageWithParam(@RequestParam("id") Long id){
+	
+	ContactMessage contactMessage=contactMessageService.getContactMessage(id);
+	ContactMessageDTO contactMessageDTO=contactMessageMapper.contactMessageToDTO(contactMessage);
+	
+	return ResponseEntity.ok(contactMessageDTO);
 	
 }
+
+
+
+
+
 // getPageDTO metodu
 private Page<ContactMessageDTO> getPageDTO(Page<ContactMessage> contactMessagePage){
 	// page sınıfına aiy map metodunu kullanacağız

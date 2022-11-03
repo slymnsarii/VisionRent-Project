@@ -5,6 +5,8 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import com.visionrent.domain.ContactMessage;
+import com.visionrent.exception.ResourceNotFoundException;
+import com.visionrent.exception.message.ErrorMessage;
 import com.visionrent.repository.ContactMessageRepository;
 @Service
 public class ContactMessageService {
@@ -26,4 +28,14 @@ public class ContactMessageService {
 	public Page<ContactMessage> getAll(Pageable pageable) {
 		 return contactMessageRepository.findAll(pageable);
 	}
+	public ContactMessage getContactMessage(Long id) {
+		return contactMessageRepository.findById(id).orElseThrow(()-> 
+				// new ResourceNotFoundException("ContactMessage is not found with id:")
+		new ResourceNotFoundException(String.format(ErrorMessage.RESOURCE_NOT_FOUND_MESSAGE_STRING, id))
+		);
+		
+	}
+	
+	
+	
 }
