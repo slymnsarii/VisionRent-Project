@@ -4,7 +4,6 @@ server:
   include-binding-errors: always
   include-message: always
   include-stacktrace: never
-  
 spring:
  datasource:
   url: jdbc:postgresql://localhost:5432/visionrent_db
@@ -18,8 +17,15 @@ spring:
   database-platform: org.hibernate.dialect.PostgreSQLDialect
   properties:
    '[hibernate.format_sql]': true
-   
-   
+logging:
+ file:
+  name: log/visionrent.log
+ pattern:
+  file: "%d %-5level [%thread] %logger:%msg%n"
+ level:
+  '[org.springframework.web]' : WARN
+  '[org.hibernate]' : INFO
+  '[org.visionrent]' : DEBUG
 info:
  application:
   name: 'VisionRent Backend App'

@@ -31,9 +31,25 @@ public class ContactMessageService {
 	public ContactMessage getContactMessage(Long id) {
 		return contactMessageRepository.findById(id).orElseThrow(()-> 
 				// new ResourceNotFoundException("ContactMessage is not found with id:")
-		new ResourceNotFoundException(String.format(ErrorMessage.RESOURCE_NOT_FOUND_MESSAGE_STRING, id))
+		new ResourceNotFoundException(String.format(ErrorMessage.RESOURCE_NOT_FOUND_MESSAGE, id))
 		);
 		
+	}
+	public void deleteContactMessage(Long id) {
+		ContactMessage foundContactMessage= getContactMessage(id);
+		
+		contactMessageRepository.delete(foundContactMessage);
+	}
+	
+	public void updateContactMessage(Long id, ContactMessage contactMessage) {
+		ContactMessage foundContactMessage= getContactMessage(id);
+		
+		foundContactMessage.setName(contactMessage.getName());
+		foundContactMessage.setBody(contactMessage.getBody());
+		foundContactMessage.setEmail(contactMessage.getEmail());
+		foundContactMessage.setSubject(contactMessage.getSubject());
+		
+		contactMessageRepository.save(foundContactMessage);
 	}
 	
 	
