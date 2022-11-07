@@ -5,40 +5,40 @@ import java.time.LocalDateTime;
 import org.springframework.http.HttpStatus;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-import com.fasterxml.jackson.databind.jsonFormatVisitors.JsonFormatTypes;
 
 public class ApiResponseError {
-
-	//AMACIM:customize error mesajlarini bu sinif icinde tutacagiz
+	
+	// AMACIM : customize error mesajlatını bu sınıf içinde tutacağız
 	private HttpStatus status;
 	
-	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy HH:mm:ss")
+	@JsonFormat(shape=JsonFormat.Shape.STRING, pattern="dd-MM-yyyy HH:mm:ss")
 	private LocalDateTime timestamp;
 	
-	//exceprion mesaji
+	// exception mesajı
 	private String message;
 	
-	//request edilen endpoint'i tutmak icin
+	// request edilen end-pointi tutmak için
 	private String requestURI;
 	
-	//private constructor
+	// private constructor
 	private ApiResponseError() {
-		timestamp=LocalDateTime.now();
+		timestamp = LocalDateTime.now();
 	}
-	
-	//Getter-Setter
+
 	
 	public ApiResponseError(HttpStatus status) {
 		this();
 		this.message="Unexpected Error";
-		this.status=status;
+		this.status = status;
 	}
 	public ApiResponseError(HttpStatus status, String message, String requestURI) {
-		this(status); //1 parametreli olan constructur'i cagriyor
+		this(status); // 1 parametreli olan constructorı çağırıyor
 		this.message=message;
-		this.requestURI=requestURI;
+		this.requestURI = requestURI;
 	}
 
+	// GEtter- Setter
+	
 	public HttpStatus getStatus() {
 		return status;
 	}
@@ -50,6 +50,8 @@ public class ApiResponseError {
 	public LocalDateTime getTimestamp() {
 		return timestamp;
 	}
+
+
 
 	public String getMessage() {
 		return message;
@@ -67,9 +69,37 @@ public class ApiResponseError {
 		this.requestURI = requestURI;
 	}
 	
+
 	
 	
 	
 	
 	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+
 }

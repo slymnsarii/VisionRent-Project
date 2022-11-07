@@ -9,7 +9,7 @@ import com.visionrent.domain.Role;
 import com.visionrent.domain.enums.RoleType;
 
 @Repository
-public interface RoleRepository extends JpaRepository<Role, Integer>{
+public interface RoleRepository  extends JpaRepository<Role, Integer>{
 	
 	Optional<Role> findByType(RoleType type);
 

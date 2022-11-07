@@ -1,11 +1,14 @@
 package com.visionrent.service;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
 import com.visionrent.domain.Role;
 import com.visionrent.domain.enums.RoleType;
 import com.visionrent.exception.ResourceNotFoundException;
 import com.visionrent.exception.message.ErrorMessage;
 import com.visionrent.repository.RoleRepository;
+
 @Service
 public class RoleService {
 	
@@ -20,4 +23,5 @@ public class RoleService {
 		return role ;
 		
 	}
+
 }

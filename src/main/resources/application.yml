@@ -4,6 +4,7 @@ server:
   include-binding-errors: always
   include-message: always
   include-stacktrace: never
+  
 spring:
  datasource:
   url: jdbc:postgresql://localhost:5432/visionrent_db
@@ -11,12 +12,13 @@ spring:
   password: password
   driver-class-name: org.postgresql.Driver
  jpa:
-  hibernate:
+  hibernate: 
    ddl-auto: update
   show-sql: true
   database-platform: org.hibernate.dialect.PostgreSQLDialect
   properties:
    '[hibernate.format_sql]': true
+   
 logging:
  file:
   name: log/visionrent.log
@@ -26,8 +28,29 @@ logging:
   '[org.springframework.web]' : WARN
   '[org.hibernate]' : INFO
   '[org.visionrent]' : DEBUG
+  
+management: #actuator
+ endpoints:
+  web:
+   exposure:
+    include: '*'
+ info:
+  env: 
+   enabled: true
+ endpoint:
+  health:
+   show-details: always
+  shutdown:
+   enabled: true 
+
+visionrent:
+ app:
+  jwtSecret: visionRent@!23
+  jwtExpirationMs: 86400000   
+   
 info:
  application:
   name: 'VisionRent Backend App'
   description: 'This is VisionRent CarRental Backend Project'
   version: '@project.version@'
+   

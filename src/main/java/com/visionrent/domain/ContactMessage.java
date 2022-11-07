@@ -1,4 +1,5 @@
 package com.visionrent.domain;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -8,21 +9,25 @@ import javax.persistence.Table;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
+
+
 @Entity
 @Table(name="tbl_cmessage")
 public class ContactMessage {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long id;
+	private Long id;  //
 	
 	@Size(min=1,max=50, message="Your name '${validatedValue}' must be between {min} and {max} chars long")
 	@NotNull(message="Please  provide your name")
@@ -43,4 +48,5 @@ public class ContactMessage {
 	@Email(message="Provide valid email")
 	@Column(length = 50, nullable = false)
 	private String email;
+
 }

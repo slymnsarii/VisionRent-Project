@@ -16,6 +16,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+
 @Getter
 @Setter
 @AllArgsConstructor
@@ -26,8 +27,8 @@ import lombok.Setter;
 public class Role {
 	
 	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Integer id; //1-customer, 2-admin
+	@GeneratedValue(strategy =  GenerationType.IDENTITY)
+	private Integer id;      // 1- customer / 2 admin 
 	
 	@Enumerated(EnumType.STRING)
 	@Column(length = 20)

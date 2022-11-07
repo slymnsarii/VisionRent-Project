@@ -9,16 +9,27 @@ import com.visionrent.domain.ContactMessage;
 import com.visionrent.dto.ContactMessageDTO;
 import com.visionrent.dto.request.ContactMessageRequest;
 
-@Mapper(componentModel = "spring") //herhangi bir sinif enjekte edip kullanabilirim
+@Mapper(componentModel = "spring") // herhangi bir sınıf enjekte edip kullanabilirim
 public interface ContactMessageMapper {
 	
-	//ContactMessage --> ContactMesasgeDTO
+	
+	
+	// ContactMessage ---> ContactMessageDTO
 	ContactMessageDTO contactMessageToDTO(ContactMessage contactMessage);
 	
-	//ContactMessageRequest --> ContactMessage
-	@Mapping(target = "id", ignore = true) //target'ta ki id field'ini mapp'leme
+	/*
+	contactMessageDTo.name = contactMessage.name;
+	contactMessageDTo.subject = contactMessage.subject;
+	
+	*/
+	
+	// ContactMessageRequest --> ContactMessage
+	@Mapping(target="id", ignore=true)  // targetta ki id fieldını mappleme
 	ContactMessage contactMessageRequestToContactMessage(ContactMessageRequest contactMessageRequest);
 	
-	//List<ContactMessage> --> List<ContactMessageDTO>
+	// List<ContactMessage> --> List<ContactMessageDTO>
 	List<ContactMessageDTO> map(List<ContactMessage> contactMessageList);
+	
+	
+
 }

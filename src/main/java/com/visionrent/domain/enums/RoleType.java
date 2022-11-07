@@ -7,13 +7,15 @@ public enum RoleType {
 	
 	private String name;
 	
-	//constructor'i disari acmamak icin private yapiyoruz
+	// constructorı dışarı açmamak için private yapıyoruz
 	private RoleType(String name) {
-		this.name=name;
+		this.name = name ;
 	}
 	
 	public String getName() {
-		return name;
+		return name ;
 	}
+	
+	
 
 }
