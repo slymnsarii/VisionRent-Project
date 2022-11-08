@@ -9,8 +9,9 @@ import com.visionrent.dto.UserDTO;
 
 @Mapper(componentModel = "spring")
 public interface UserMapper {
-
+	
 	UserDTO userToUserDTO(User user);
 	
-	List<UserDTO> map(List<User>userList);
+	List<UserDTO> map(List<User> userList);
+	
 }

@@ -1,7 +1,9 @@
 package com.visionrent.exception;
+
 import java.util.List;
 import java.util.stream.Collector;
 import java.util.stream.Collectors;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.ConversionNotSupportedException;
@@ -17,7 +19,9 @@ import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
+
 import com.visionrent.exception.message.ApiResponseError;
+
 @ControllerAdvice // merkezi exception handle etmek için @ControllerAdvice ekledim
 public class VisionRentExceptionHandler  extends ResponseEntityExceptionHandler{
 	
@@ -29,18 +33,18 @@ public class VisionRentExceptionHandler  extends ResponseEntityExceptionHandler{
    private ResponseEntity<Object> buildResponseEntity(  ApiResponseError error) {
 	   logger.error(error.getMessage()); //  eception fırlarsa mesajını loggladık
 	   return new ResponseEntity<>(error, error.getStatus());
-	  
+	   
    }
 	
 	
 	@ExceptionHandler(ResourceNotFoundException.class) // bu @ ile custom exceptionrımı yakalayacağım
 	protected ResponseEntity<Object> handleResourceNotFoundException ( ResourceNotFoundException ex, WebRequest  request  )   {
 																																																// WebRequest = gelen request
-			ApiResponseError error =  new ApiResponseError( HttpStatus.NOT_FOUND,
-																														ex.getMessage(),
+			ApiResponseError error =  new ApiResponseError( HttpStatus.NOT_FOUND, 
+																														ex.getMessage(), 
 																														request.getDescription(false)  );
-	       
-			/*
+	        
+			/* 
 			 *  Map<String,String> map= new HashMap<>();
 			 *  map.put("time", LocalDateTime.noe().toString());
 		     *  map.put("message", ex.getMessage());
@@ -60,11 +64,11 @@ public class VisionRentExceptionHandler  extends ResponseEntityExceptionHandler{
 		    																			stream().
 		    																			map(e->e.getDefaultMessage()).//bütün errorların getMessage() metodunu alıyorum
 		    																			collect(Collectors.toList());
-		   
+		    
 		    ApiResponseError error = new  ApiResponseError(HttpStatus.BAD_REQUEST,
 		    																				errors.get(0).toString(),
 		    																				request.getDescription(false));
-		   
+		    
 		    return buildResponseEntity(error);
 		    		
 	
@@ -101,8 +105,8 @@ public class VisionRentExceptionHandler  extends ResponseEntityExceptionHandler{
 	
 	@ExceptionHandler(ConflictException.class)
 	protected ResponseEntity<Object> handleConflictException(ConflictException ex, WebRequest request) {
-		ApiResponseError error = new ApiResponseError(HttpStatus.CONFLICT,
-																												ex.getMessage(),
+		ApiResponseError error = new ApiResponseError(HttpStatus.CONFLICT, 
+																												ex.getMessage(), 
 																												request.getDescription(false));
 		return buildResponseEntity(error);
 	}
@@ -112,16 +116,16 @@ public class VisionRentExceptionHandler  extends ResponseEntityExceptionHandler{
 	
 	@ExceptionHandler(AccessDeniedException.class)
 	protected ResponseEntity<Object> handleAccessDeniedException(AccessDeniedException ex, WebRequest request) {
-		ApiResponseError error = new ApiResponseError(HttpStatus.FORBIDDEN,
-																												ex.getMessage(),
+		ApiResponseError error = new ApiResponseError(HttpStatus.FORBIDDEN, 
+																												ex.getMessage(), 
 																												request.getDescription(false));
 		return buildResponseEntity(error);
 	}
 	
 	@ExceptionHandler(AuthenticationException.class)
 	protected ResponseEntity<Object> handleAuthenticationException(AuthenticationException ex, WebRequest request) {
-		ApiResponseError error = new ApiResponseError(HttpStatus.BAD_REQUEST,
-																												ex.getMessage(),
+		ApiResponseError error = new ApiResponseError(HttpStatus.BAD_REQUEST, 
+																												ex.getMessage(), 
 																												request.getDescription(false));
 		return buildResponseEntity(error);
 	}
@@ -133,19 +137,33 @@ public class VisionRentExceptionHandler  extends ResponseEntityExceptionHandler{
 	@ExceptionHandler(RuntimeException.class)
 	protected ResponseEntity<Object> handleRuntimeException ( RuntimeException ex, WebRequest  request  )   {
 		
-		ApiResponseError error =  new ApiResponseError( HttpStatus.INTERNAL_SERVER_ERROR,
-																									ex.getMessage(),
+		ApiResponseError error =  new ApiResponseError( HttpStatus.INTERNAL_SERVER_ERROR, 
+																									ex.getMessage(), 
 																									request.getDescription(false)  );
+
 		return buildResponseEntity(error);
+
 }
 	
 	@ExceptionHandler(Exception.class)
 	protected ResponseEntity<Object> handleGeneralException ( Exception ex, WebRequest  request  )   {
 		
-		ApiResponseError error =  new ApiResponseError( HttpStatus.INTERNAL_SERVER_ERROR,
-																								ex.getMessage(),
+		ApiResponseError error =  new ApiResponseError( HttpStatus.INTERNAL_SERVER_ERROR, 
+																								ex.getMessage(), 
 																								request.getDescription(false)  );
+
 		return buildResponseEntity(error);
+
 }
 	
+	@ExceptionHandler(BadRequestException.class)
+	protected ResponseEntity<Object> handleBadRequestException(BadRequestException ex, WebRequest request) {
+		ApiResponseError error = new ApiResponseError(HttpStatus.BAD_REQUEST,
+																												ex.getMessage(),
+																												request.getDescription(false));
+		return buildResponseEntity(error);
+	}
+	
+
+
 }
