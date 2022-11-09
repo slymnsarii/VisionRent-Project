@@ -18,6 +18,11 @@ spring:
   database-platform: org.hibernate.dialect.PostgreSQLDialect
   properties:
    '[hibernate.format_sql]': true
+ #image
+ servlet:
+  multipart:
+   max-file-size: 2MB
+   max-request-size: 2MB
    
 logging:
  file:

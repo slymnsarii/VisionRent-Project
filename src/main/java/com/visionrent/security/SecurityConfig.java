@@ -31,7 +31,15 @@ public class SecurityConfig {
     	          sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).
     	          and().
     			  authorizeRequests().
-    			  antMatchers("/","/index.html", "/login", "/register","/js","/css").permitAll().
+    			  antMatchers("/",
+    					  	  "index.html",
+    					  	  "/login", 
+    					  	  "/register",
+    					  	  "/js/*",
+    					  	  "/css/*",
+    					  	  "/images/*",
+    					  	  "files/download/**",
+    					  	  "files/display**").permitAll().
     			  anyRequest().authenticated();
     	
     	http.addFilterBefore(authTokenFilter(), UsernamePasswordAuthenticationFilter.class);
