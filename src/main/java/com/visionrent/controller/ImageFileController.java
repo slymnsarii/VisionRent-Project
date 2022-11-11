@@ -24,33 +24,38 @@ import com.visionrent.dto.response.ResponseMessage;
 import com.visionrent.dto.response.VRResponse;
 import com.visionrent.service.ImageFileService;
 
+
 @RestController
 @RequestMapping("/files")
 public class ImageFileController {
-
+	
 	@Autowired
 	private ImageFileService imageFileService;
 	
-	//*********Upload**********
+	// *********** Upload ********************
 	@PostMapping("/upload")
 	@PreAuthorize("hasRole('ADMIN')")
-	public ResponseEntity<ImageSavedResponse>uploadFile(@RequestParam("file") MultipartFile file){
+	public ResponseEntity<ImageSavedResponse> uploadFile(@RequestParam("file") MultipartFile file) {
 		
-		String imageId=imageFileService.saveImage(file);
+		  String imageId = imageFileService.saveImage(file);
+		  
+		 ImageSavedResponse response = new ImageSavedResponse(imageId, ResponseMessage.IMAGE_SAVED_RESPONSE_MESSAGE,true);
+		 return ResponseEntity.ok(response);
 		
-		ImageSavedResponse response=new ImageSavedResponse(imageId,ResponseMessage.IMAGE_SAVED_RESPONSE_MESSAGE,true);
-		return ResponseEntity.ok(response);
 	}
 	
-	//*********Download*********
+	//********************* Download***************
 	@GetMapping("/download/{id}")
-	public ResponseEntity<byte[]>downloadFile(@PathVariable String id){
-		ImageFile imageFile=imageFileService.getImageById(id);
-		return ResponseEntity.ok().header(HttpHeaders.CONTENT_DISPOSITION,"attachment;filename="+imageFile.getName()).
-				body(imageFile.getImageData().getData());
+	public ResponseEntity<byte[]> downloadFile(@PathVariable String id) {
+		
+		      ImageFile imageFile  =   imageFileService.getImageById(id);
+		      
+		      return ResponseEntity.ok().header(HttpHeaders.CONTENT_DISPOSITION, "attachment;filename=" + imageFile.getName()).
+		    		  body(imageFile.getImageData().getData());
 	}
 	
-	//*********Image Display******
+	
+	//***********************Image Display*************************
 	@GetMapping("/display/{id}")
 	public ResponseEntity<byte[]> displayFile(@PathVariable String id) {
 		
@@ -58,29 +63,71 @@ public class ImageFileController {
 	      // header bilgisine MediaType bilgisini giriyorum
 	      HttpHeaders header = new HttpHeaders();
 	      header.setContentType(MediaType.IMAGE_PNG);
-	     
+	      
 	      return new ResponseEntity<>(imageFile.getImageData().getData(), header, HttpStatus.OK);
 	}
 	
-	//*********GetAllImages**********
+	//*************************GetAllimages*******************
 	@GetMapping
 	@PreAuthorize("hasRole('ADMIN')")
-	public ResponseEntity<List<ImageFileDTO>> getAllImages(){
+	public ResponseEntity<List<ImageFileDTO>> getAllImages( ) {
 		
-		List<ImageFileDTO> allImageDTO=imageFileService.getAllImages();
-		
-		return ResponseEntity.ok(allImageDTO);
+		   List<ImageFileDTO> allImageDTO =  imageFileService.getAllImages();
+		   
+		   return ResponseEntity.ok(allImageDTO);
 		
 	}
 	
-	//*********Delete Images**********
+	//*****************Delete Images ******************
 	@DeleteMapping("/{id}")
 	@PreAuthorize("hasRole('ADMIN')")
-	public ResponseEntity<VRResponse> deleteImageFile(@PathVariable String id){
+	public ResponseEntity<VRResponse> deleteImageFile(@PathVariable String id) {
 		imageFileService.removeById(id);
 		
-		VRResponse response=new VRResponse(ResponseMessage.IMAGE_DELETE_RESPONSE_MESSAGE, true);
+		VRResponse response = new VRResponse(ResponseMessage.IMAGE_DELETE_RESPONSE_MESSAGE,true);
 		return ResponseEntity.ok(response);
 	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+
+
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	
 }

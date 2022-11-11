@@ -131,7 +131,13 @@ public class VisionRentExceptionHandler  extends ResponseEntityExceptionHandler{
 	}
 	
 	
-	
+	@ExceptionHandler(BadRequestException.class)
+	protected ResponseEntity<Object> handleBadRequestException(BadRequestException ex, WebRequest request) {
+		ApiResponseError error = new ApiResponseError(HttpStatus.BAD_REQUEST, 
+																												ex.getMessage(), 
+																												request.getDescription(false));
+		return buildResponseEntity(error);
+	}
 	
 	
 	@ExceptionHandler(RuntimeException.class)
@@ -155,14 +161,6 @@ public class VisionRentExceptionHandler  extends ResponseEntityExceptionHandler{
 		return buildResponseEntity(error);
 
 }
-	
-	@ExceptionHandler(BadRequestException.class)
-	protected ResponseEntity<Object> handleBadRequestException(BadRequestException ex, WebRequest request) {
-		ApiResponseError error = new ApiResponseError(HttpStatus.BAD_REQUEST,
-																												ex.getMessage(),
-																												request.getDescription(false));
-		return buildResponseEntity(error);
-	}
 	
 
 

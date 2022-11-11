@@ -7,6 +7,7 @@ import javax.persistence.Id;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
+import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.GenericGenerator;
 
 import lombok.AllArgsConstructor;
@@ -20,11 +21,11 @@ import lombok.Setter;
 @NoArgsConstructor
 
 @Entity
-@Table(name = "t_imagefile")
+@Table(name="t_imagefile")
 public class ImageFile {
-
+	
 	@Id
-	@GeneratedValue(generator = "uuid") //12 karakterlik String bir id
+	@GeneratedValue(generator = "uuid") // 12 karakterlik String bir id
 	@GenericGenerator(name = "uuid", strategy = "uuid2")
 	private String id;
 	
@@ -34,13 +35,17 @@ public class ImageFile {
 	
 	private long length;
 	
-	@OneToOne(cascade = CascadeType.ALL) //imagefile silinirse, imagedata da silinsin
-	private ImageData imageData;
+	@OneToOne(cascade=CascadeType.ALL)// ImageFile silinirse , imageData da silinsin
+	private ImageData imageData; 
 	
-	public ImageFile(String name, String type, ImageData imageData) {
-		this.name=name;
-		this.type=type;
-		this.imageData=imageData;
-		this.length=imageData.getData().length; //Imagefile uzunlugu imageData'dan cekiliyor
+	public ImageFile(String name, String type,ImageData imageData) {
+		this.name = name;
+		this.type = type;
+		this.imageData = imageData ;
+		this.length = imageData.getData().length; // ImageFile  uzunluğu imageData dan çekiliyor
 	}
+
+
+	
+	
 }

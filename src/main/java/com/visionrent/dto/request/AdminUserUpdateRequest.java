@@ -1,13 +1,17 @@
 package com.visionrent.dto.request;
+
 import java.util.Set;
+
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
+
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+
 @Getter
 @Setter
 @AllArgsConstructor
@@ -29,7 +33,7 @@ public class AdminUserUpdateRequest {
 	@NotBlank(message="Please provide your password")
 	private String password;
 	
-	@Pattern(regexp = "^((\\(\\d{3}\\))|\\d{3})[- .]?\\d{3}[- .]?\\d{4}$",
+	@Pattern(regexp = "^((\\(\\d{3}\\))|\\d{3})[- .]?\\d{3}[- .]?\\d{4}$",  
             message = "Please provide valid phone number")
 	@Size(max=14)
 	@NotBlank(message="Please provide your phone number")
@@ -46,4 +50,6 @@ public class AdminUserUpdateRequest {
 	private Boolean builtIn ;
 	
 	private Set<String> roles ;
+
+
 }

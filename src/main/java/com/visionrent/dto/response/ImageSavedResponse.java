@@ -7,14 +7,16 @@ import lombok.Setter;
 @Getter
 @Setter
 @NoArgsConstructor
-public class ImageSavedResponse extends VRResponse{
+public class ImageSavedResponse extends VRResponse {
+	
 
 	private String imageId;
 	
-	//constructor; message ve succes bilgisini VRResponse constructor'ini  kullanarak set edecegiz
-	public ImageSavedResponse(String imageId, String message, boolean success) {
+	// constructor ,   message ve success bilgisini VRResponse  constructorını kullanarak set edeceğiz
+	public ImageSavedResponse( String imageId, String message, boolean success) {
 		super(message,success);
-		this.imageId=imageId;
+		this.imageId= imageId;
 		
 	}
+
 }

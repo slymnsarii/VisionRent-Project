@@ -9,13 +9,15 @@ import org.springframework.stereotype.Repository;
 
 import com.visionrent.domain.ImageFile;
 
+
 @Repository
 public interface ImageFileRepository extends JpaRepository<ImageFile, String>{
-
-	@EntityGraph(attributePaths = "id") //parametreye id degeri girildigi zaman, ayni seviyedeki datalar gelir,
-										//bagli oldugu imageData'lar gelmemis olacak
+	
+	@EntityGraph(attributePaths = "id") // parametreye id değeri girildiği zaman, aynı seviyedeki datalar gelir, 
+	//bağlı olduğu imageData lar gelmemiş olacak
 	List<ImageFile> findAll();
 	
-	@EntityGraph(attributePaths = "id") //imageFile ile ilgili data'lar gelsin
-	Optional<ImageFile> findImageById(String id);
+	@EntityGraph(attributePaths = "id") // imageFile ile ilgili datalar gelsin
+	Optional<ImageFile> findImageById(String Id);
+
 }

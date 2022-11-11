@@ -28,7 +28,7 @@ public interface UserRepository extends JpaRepository<User, Long> {
 	   
 	   @EntityGraph(attributePaths = "roles")
 	   List<User> findAll();    // role bilgisi LAZY tanımlandığı için her rolde SQL kodu 
-	   //oluşmasını istemediğimden @EntityGRaph annotationı ile fetch type ını EAGER yapmış olduk
+	   //oluşmasını istemediğimden @EntityGraph annotationı ile fetch type ını EAGER yapmış olduk
 	   
 	   @EntityGraph(attributePaths = "roles")
 	   Page<User> findAll(Pageable pageable);
@@ -36,8 +36,8 @@ public interface UserRepository extends JpaRepository<User, Long> {
 	   @EntityGraph(attributePaths = "roles")
 	   Optional<User> findById(Long id);
 	   
-	   //parantez icine id yazdik, boylelikle roller gelmemis oluyor,
-	   //user ve roller iliskiliyken ben sadece user'lar gelsin istiyorsam bu sekilde yazaarim
+	   //parantez içine id yazdık, böylelikle roller gelmemiş oluyor,
+	   // user ve roller ilişkili iken ben sadece userlar gelsin istiyorsam 
 	   @EntityGraph(attributePaths = "id")
 	   Optional<User> findUserById(Long id);
 	   
@@ -50,4 +50,5 @@ public interface UserRepository extends JpaRepository<User, Long> {
 			   					 @Param("email") String email,
 			   					 @Param("address") String address,
 			   					  @Param("zipCode") String zipCode);
+
 }

@@ -1,14 +1,11 @@
 package com.visionrent.dto.request;
 
-import java.util.HashSet;
-import java.util.Set;
 
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 
-import com.visionrent.domain.Role;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -20,35 +17,33 @@ import lombok.Setter;
 @AllArgsConstructor
 @NoArgsConstructor
 public class UserUpdateRequest {
-
-private Long id;
 	
-	@Size(max = 50)
-	@NotBlank(message = "Please provide your First name")
+	@Size(max=50)
+	@NotBlank(message="Please provide your First name")
 	private String firstName;
 	
-	@Size(max = 50)
-	@NotBlank(message = "Please provide your Last name")
+	@Size(max=50)
+	@NotBlank(message="Please provide your Last name")
 	private String lastName;
 	
-	@Size(min = 5, max = 80)
-	@Email(message = "Please provide your email")
+	@Size(min=5  , max=80)
+	@Email(message="Please provide your email")
 	private String email;
 	
-	@Pattern(regexp = "^((\\(\\d{3}\\))|\\d{3})[- .]?\\d{3}[- .]?\\d{4}$",
+	@Pattern(regexp = "^((\\(\\d{3}\\))|\\d{3})[- .]?\\d{3}[- .]?\\d{4}$",  
             message = "Please provide valid phone number")
 	@Size(max=14)
 	@NotBlank(message="Please provide your phone number")
 	private String phoneNumber;
 	
-
-	@Size(max = 100)
-	@NotBlank(message = "Please provide your address")
+	@Size(max=100)
+	@NotBlank(message="Please provide your address")
 	private String address;
 	
-
-	@Size(max = 15)
-	@NotBlank(message = "Please provide your zip-code")
+	@Size(max=15)
+	@NotBlank(message="Please provide your zip-code")
 	private String zipCode;
-	
+
+		
+
 }

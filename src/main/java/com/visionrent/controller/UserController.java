@@ -91,63 +91,75 @@ public class UserController {
 	}
 	
 	//Update Password
-		@PatchMapping("/auth")
-		@PreAuthorize("hasRole('ADMIN') or hasRole('CUSTOMER')")
-		public  ResponseEntity<VRResponse> updatePassword( @Valid @RequestBody  UpdatePasswordRequest updatePasswordRequest) {
-			userService.updatePassword(updatePasswordRequest);
-			
+	@PatchMapping("/auth")
+	@PreAuthorize("hasRole('ADMIN') or hasRole('CUSTOMER')")
+	public  ResponseEntity<VRResponse> updatePassword( @Valid @RequestBody  UpdatePasswordRequest updatePasswordRequest) {
+		userService.updatePassword(updatePasswordRequest);
+		
+		VRResponse response = new VRResponse();
+		response.setMessage(ResponseMessage.PASSWORD_CHANGED_RESPONSE_MESSAGE);
+		response.setSuccess(true);
+		
+		return ResponseEntity.ok(response);
+		
+	}
+	
+	// update user
+	@PutMapping
+	@PreAuthorize("hasRole('ADMIN') or hasRole('CUSTOMER')")
+	public ResponseEntity<VRResponse> updateUser(@Valid @RequestBody UserUpdateRequest userUpdateRequest) {
+		 userService.updateUser(userUpdateRequest);
+		 
 			VRResponse response = new VRResponse();
-			response.setMessage(ResponseMessage.PASSWORD_CHANGED_RESPONSE_MESSAGE);
+			response.setMessage(ResponseMessage.USER_UPDATE_RESPONSE_MESSAGE);
 			response.setSuccess(true);
 			
 			return ResponseEntity.ok(response);
-			
-		}
+		
+		
+	}
 	
-		// update user
-		@PutMapping
-		@PreAuthorize("hasRole('ADMIN') or hasRole('CUSTOMER')")
-		public ResponseEntity<VRResponse> updateUser(@Valid @RequestBody UserUpdateRequest userUpdateRequest) {
-			 userService.updateUser(userUpdateRequest);
-			
-				VRResponse response = new VRResponse();
-				response.setMessage(ResponseMessage.USER_UPDATE_RESPONSE_MESSAGE);
-				response.setSuccess(true);
-				
-				return ResponseEntity.ok(response);
-			
-			
-		}
+	// Admin herhangi bir kullanıcıyı update etsin
+	@PutMapping("/{id}/auth")
+	@PreAuthorize("hasRole('ADMIN')")
+	public ResponseEntity<VRResponse> updateUserAuth( @PathVariable Long id ,  
+			  @Valid @RequestBody AdminUserUpdateRequest adminUserUpdateRequest ) {
 		
-		//admin herhangi bir kullaniciyi update etsin
-		@PutMapping("/{id}/auth")
-		@PreAuthorize("hasRole('ADMIN')")
-		public ResponseEntity<VRResponse> updateUserAuth( @PathVariable Long id ,
-				  @Valid @RequestBody AdminUserUpdateRequest adminUserUpdateRequest ) {
+		 userService.updateUserAuth(id,adminUserUpdateRequest);
+		 
+		 VRResponse response = new VRResponse();
+			response.setMessage(ResponseMessage.USER_UPDATE_RESPONSE_MESSAGE);
+			response.setSuccess(true);
 			
-			 userService.updateUserAuth(id,adminUserUpdateRequest);
-			
-			 VRResponse response = new VRResponse();
-				response.setMessage(ResponseMessage.USER_UPDATE_RESPONSE_MESSAGE);
-				response.setSuccess(true);
-				
-				return ResponseEntity.ok(response);
-			
-			
-		}
+			return ResponseEntity.ok(response);
 		
-		//delete user
-		@DeleteMapping("/{id}/auth")
-		@PreAuthorize("hasRole('ADMIN')")
-		public ResponseEntity<VRResponse> deleteUSer(@PathVariable Long id){
-			userService.removeUserById(id);
-
-			 VRResponse response = new VRResponse();
-				response.setMessage(ResponseMessage.USER_DELETE_RESPONSE_MESSAGE);
-				response.setSuccess(true);
-				
-				return ResponseEntity.ok(response);
-		}
+		
+	}
+	
+	// delete user
+	@DeleteMapping("/{id}/auth")
+	@PreAuthorize("hasRole('ADMIN')")
+	public ResponseEntity<VRResponse> deleteUser(@PathVariable Long id) {
+		userService.removeUserById(id);
+		
+		VRResponse response = new VRResponse();
+		response.setMessage(ResponseMessage.USER_DELETE_RESPONSE_MESSAGE);
+		response.setSuccess(true);
+		
+		return ResponseEntity.ok(response);
+		
+	}
+	
+	
+	
+	
 	
 
+	
+	
+	
+	
+	
+	
+	
 }

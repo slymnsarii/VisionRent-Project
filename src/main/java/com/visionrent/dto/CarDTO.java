@@ -1,19 +1,23 @@
 package com.visionrent.dto;
+
 import java.util.Set;
+
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+
 @Getter
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
 public class CarDTO {
 	
-private Long Id;
+private Long id;
 	
 	@Size(max=30,message="Size is exceeded")
 	@NotBlank(message="Please provide car model")
@@ -48,5 +52,6 @@ private Long Id;
 	private Boolean builtIn = false;
 	
 	
-	private Set<String> image;
+	private Set<String> image; 
+
 }

@@ -32,15 +32,15 @@ public class SecurityConfig {
     	          and().
     			  authorizeRequests().
     			  antMatchers("/",
-    					  	  "index.html",
-    					  	  "/login", 
-    					  	  "/register",
-    					  	  "/js/*",
-    					  	  "/css/*",
-    					  	  "/images/*",
-    					  	  "/files/download/**",
-    					  	  "/files/display**",
-    					  	  "/car/visitors/**").permitAll().
+    					  						"index.html", 
+    					  						"/login", 
+    					  						"/register",
+    					  						"/js/*",
+    					  						"/css/*",
+    					  						"/images/*",
+    					  						"/files/download/**",
+    					  						"/files/display/**",
+    					  						"/car/visitors/**").permitAll().
     			  anyRequest().authenticated();
     	
     	http.addFilterBefore(authTokenFilter(), UsernamePasswordAuthenticationFilter.class);

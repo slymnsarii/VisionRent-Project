@@ -6,10 +6,10 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
+import javax.persistence.Table;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
-import javax.persistence.Table;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -22,14 +22,14 @@ import lombok.Setter;
 @NoArgsConstructor
 
 @Entity
-@Table(name = "t_car")
+@Table(name="t_car")
 public class Car {
-
+	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	
-	@Column(length = 30,nullable = false)
+	@Column(length = 30, nullable = false)
 	private String model;
 	
 	@Column(nullable = false)
@@ -41,8 +41,8 @@ public class Car {
 	@Column(nullable = false)
 	private Integer luggage;
 	
-	@Column(length = 30,nullable = false)
-	private String transmission;
+	@Column(length = 30, nullable = false)
+	private String  transmission;
 	
 	@Column(nullable = false)
 	private Boolean airConditioning;
@@ -53,12 +53,15 @@ public class Car {
 	@Column(nullable = false)
 	private Double pricePerHour;
 	
-	@Column(length = 30,nullable = false)
+	@Column(length = 30, nullable = false)
 	private String fuelType;
 	
-	private Boolean builtIn=false;
+	
+	private Boolean builtIn = false;
 	
 	@OneToMany(orphanRemoval = true)
-	@JoinColumn(name = "car_id")
-	private Set<ImageFile>image;
+	@JoinColumn(name="car_id")
+	private Set<ImageFile> image;
+	
+
 }

@@ -1,4 +1,5 @@
 package com.visionrent.service;
+
 import java.io.IOException;
 import java.util.List;
 import java.util.Objects;
@@ -16,11 +17,13 @@ import com.visionrent.dto.ImageFileDTO;
 import com.visionrent.exception.ResourceNotFoundException;
 import com.visionrent.exception.message.ErrorMessage;
 import com.visionrent.repository.ImageFileRepository;
+
 @Service
 public class ImageFileService {
 	
 	@Autowired
 	private ImageFileRepository imageFileRepository;
+
 	public String saveImage(MultipartFile file) {
 		
 		ImageFile imageFile = null;
@@ -38,44 +41,72 @@ public class ImageFileService {
 		imageFileRepository.save(imageFile);
 		
 		return imageFile.getId();
+
 		
 	}
-	
+
 	public ImageFile getImageById(String id) {
 		
-		ImageFile imageFile=imageFileRepository.findById(id).orElseThrow(()-> new ResourceNotFoundException(
-				String.format(ErrorMessage.IMAGE_NOT_FOUND_MESSAGE, id)));
+		ImageFile imageFile = imageFileRepository.findById(id).orElseThrow(()-> 
+		new ResourceNotFoundException(String.format(ErrorMessage.IMAGE_NOT_FOUND_MESSAGE, id)));
 		
 		return imageFile;
+		
 	}
+//*****************************************
 	
 	public List<ImageFileDTO> getAllImages() {
 		
-		List<ImageFile>imageFiles=imageFileRepository.findAll();
+		List<ImageFile > imageFiles =  imageFileRepository.findAll();
 		
-		List<ImageFileDTO> imageFileDTOs=imageFiles.stream().map(imFile->{
-			//URI olusturmamiz gerekiyor
-			String imageUri=ServletUriComponentsBuilder. //Uri build eden hazir method
-			fromCurrentContextPath(). //localhost:8080
-			path("/files/download/").
-			path(imFile.getId()).toUriString(); //endpoint sonuna image id eklendi -->localhost:8080/files/download/1
-			
-			return new ImageFileDTO(imFile.getName(), imageUri, imFile.getType(), imFile.getLength());
-			
+		 List<ImageFileDTO> imageFileDTOs =imageFiles.stream().map(imFile->{
+			//URI oluşturmamız gerekiyor
+			     String imageUri =  ServletUriComponentsBuilder. // Uri build ede nhazır metod
+			      fromCurrentContextPath().// localhost:8080
+			      path("/files/download/").
+			      path(imFile.getId()).toUriString();// end-point sonuna image id eklendi   --> localhost:8080/files/download/3
+			     
+			     return new ImageFileDTO(imFile.getName(), imageUri,imFile.getType(),imFile.getLength());
 		}).collect(Collectors.toList());
-		
-		return imageFileDTOs;
+		 
+		 return imageFileDTOs;
 	}
 
+	//*************************************************
+	
 	public void removeById(String id) {
 		
-		ImageFile imageFile=getImageById(id);
-		imageFileRepository.delete(imageFile);
+		 ImageFile imageFile =  getImageById(id);
+		 imageFileRepository.delete(imageFile);
 	}
 	
-	//car tarafi icin gerekli method
+	//******************************************
+	
+	// car tarafı için gerekli metod
 	public ImageFile findImageById(String id) {
 		return imageFileRepository.findImageById(id).orElseThrow(()-> new
 				ResourceNotFoundException(String.format(ErrorMessage.IMAGE_NOT_FOUND_MESSAGE, id)));
 	}
+
 }
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
