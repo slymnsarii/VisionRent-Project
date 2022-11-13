@@ -7,6 +7,7 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.visionrent.domain.enums.ReservationStatus;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -17,9 +18,8 @@ import lombok.Setter;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class ReservationRequest {
+public class ReservationUpdateRequest {
 	
-
 	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "MM/dd/yyyy HH:mm:ss")
 	@NotNull(message="Please provide the pick up time of the reservation")
 	private LocalDateTime pickUpTime;
@@ -36,7 +36,8 @@ public class ReservationRequest {
 	@NotBlank(message="Please provide the drop off  location of the reservation")
 	private String dropOffLocation;
 	
-
+	private ReservationStatus status;
 	
+
 
 }

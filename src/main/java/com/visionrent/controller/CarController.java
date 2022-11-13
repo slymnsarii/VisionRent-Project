@@ -24,7 +24,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.visionrent.dto.CarDTO;
-import com.visionrent.dto.ContactMessageDTO;
 import com.visionrent.dto.response.ResponseMessage;
 import com.visionrent.dto.response.VRResponse;
 import com.visionrent.service.CarService;
@@ -63,12 +62,12 @@ public class CarController {
 	
 	@GetMapping("/visitors/pages")
 	public ResponseEntity<Page<CarDTO>> getAllCarsWithPage(  
-			 												@RequestParam("page") int page,
-			 												@RequestParam("size") int size,
-			 												@RequestParam("sort") String prop,//neye göre sıralanacağı belirtiliyor
-			 												@RequestParam(value="direction",
-																required = false, // direction required olmasın
- 																defaultValue = "DESC") Direction direction )  {
+			 																		@RequestParam("page") int page,
+			 																		@RequestParam("size") int size,
+			 																		@RequestParam("sort") String prop,//neye göre sıralanacağı belirtiliyor
+			 																		@RequestParam(value="direction",
+			 																			required = false, // direction required olmasın
+			 																			defaultValue = "DESC") Direction direction )  {
 			Pageable pageable = PageRequest.of(page, size, Sort.by(direction, prop));
 
 			Page<CarDTO> pageDTO = carService.findAllWithPage(pageable);
@@ -78,30 +77,29 @@ public class CarController {
 	
 	
 	}	
-	//*******************getCarById***********************
+	// ***************getCarById**********************************
 	
 	@GetMapping("/visitors/{id}")
-	public ResponseEntity<CarDTO> getCarById(@PathVariable Long id){
+	public ResponseEntity<CarDTO> getCarById(@PathVariable Long id) {
 		
-		CarDTO carDTO=carService.findById(id);
-		return ResponseEntity.ok(carDTO);
+		 CarDTO carDTO =  carService.findById(id);
+		 return ResponseEntity.ok(carDTO);
 	}
 	
-	//*******************Update Car With ImageID***********************
-	
+	//****************Update Car With ImageID*********************************
 	@PutMapping("/admin/auth")
 	@PreAuthorize("hasRole('ADMIN')")
-	public ResponseEntity<VRResponse> updateCar(@RequestParam("id")Long id,
-												@RequestParam("imageId")String imageId,
-												@Valid @RequestBody CarDTO carDTO){
+	public ResponseEntity<VRResponse> updateCar(@RequestParam("id") Long id,
+																											@RequestParam("imageId") String imageId,
+																											@Valid @RequestBody CarDTO carDTO)  {
 		carService.updateCar(id,imageId,carDTO);
 		
-		VRResponse response=new VRResponse(ResponseMessage.CAR_UPDATE_RESPONSE_MESSAGE,true);
+		VRResponse response = new VRResponse(ResponseMessage.CAR_UPDATE_RESPONSE_MESSAGE, true);
 		return ResponseEntity.ok(response);
 		
+		
 	}
-	
-	//*******************DELETE CAR*****************
+	//***********************DELETE CAR************************
 	
 	@DeleteMapping("/admin/{id}/auth")
 	@PreAuthorize("hasRole('ADMIN')")
@@ -111,6 +109,11 @@ public class CarController {
 		VRResponse response = new VRResponse(ResponseMessage.CAR_DELETE_RESPONSE_MESSAGE,true);
 		return ResponseEntity.ok(response);
 	}
+	
+	
+	
+	
+	
 	
 	
 	

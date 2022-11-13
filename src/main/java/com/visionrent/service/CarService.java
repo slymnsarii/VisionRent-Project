@@ -1,18 +1,15 @@
 package com.visionrent.service;
 
 import java.util.HashSet;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 import java.util.function.Function;
 
-import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.DeleteMapping;
 
 import com.visionrent.domain.Car;
 import com.visionrent.domain.ImageFile;
@@ -26,53 +23,56 @@ import com.visionrent.repository.CarRepository;
 
 @Service
 public class CarService {
-	
+
 	@Autowired
 	private CarRepository carRepository;
-	
+
 	@Autowired
-	private ImageFileService imageFileService ;
-	
+	private ImageFileService imageFileService;
+
 	@Autowired
 	private CarMapper carMapper;
 
+	// *************************************
+
 	public void saveCar(String imageId, CarDTO carDTO) {
-		
+
 		// image ID imageRepo da var mı ?
-		ImageFile imageFile =  imageFileService.findImageById(imageId);
+		ImageFile imageFile = imageFileService.findImageById(imageId);
 		// imageId daha önce başka bir araç ile eşleşmiş mi
-		    Integer usedCarCount =  carRepository.findCarCountByImageId(imageFile.getId());
-		    
-		    if(usedCarCount>0) {
-		    	throw new ConflictException(ErrorMessage.IMAGE_USED_MESSAGE);
-		    }
-		    
-		    // mapper işlemi
-		    Car car =  carMapper.carDTOToCar(carDTO);
-		    
-		    Set<ImageFile> imFiles = new HashSet<>();
-		    imFiles.add(imageFile);
-		    
-		    car.setImage(imFiles);
-		    
-		    carRepository.save(car);
+		Integer usedCarCount = carRepository.findCarCountByImageId(imageFile.getId());
+
+		if (usedCarCount > 0) {
+			throw new ConflictException(ErrorMessage.IMAGE_USED_MESSAGE);
+		}
+
+		// mapper işlemi
+		Car car = carMapper.carDTOToCar(carDTO);
+
+		Set<ImageFile> imFiles = new HashSet<>();
+		imFiles.add(imageFile);
+
+		car.setImage(imFiles);
+
+		carRepository.save(car);
 
 	}
 
-	//********************************
-	
+	// ********************************
+
 	public List<CarDTO> getAllCars() {
-		
-	List<Car>	carList = carRepository .findAll();
-    return carMapper.map(carList);
-		
-		
+
+		List<Car> carList = carRepository.findAll();
+		return carMapper.map(carList);
+
 	}
+
+	// ***********************************
 
 	public Page<CarDTO> findAllWithPage(Pageable pageable) {
-		
-		Page<Car> carPage  = carRepository.findAll(pageable);
-		Page<CarDTO> carPageDTO =  carPage.map(new Function<Car,CarDTO>(){
+
+		Page<Car> carPage = carRepository.findAll(pageable);
+		Page<CarDTO> carPageDTO = carPage.map(new Function<Car, CarDTO>() {
 			@Override
 			public CarDTO apply(Car car) {
 				return carMapper.carToCarDTO(car);
@@ -81,41 +81,41 @@ public class CarService {
 		return carPageDTO;
 	}
 
-//************************************************
+	// *************************************
 	public CarDTO findById(Long id) {
-		
-		Car car=getCar(id);
-		
+
+		Car car = getCar(id);
+
 		return carMapper.carToCarDTO(car);
-		
+
 	}
-	
+
 	public Car getCar(Long id) {
-		
-		Car car=carRepository.findCarById(id).orElseThrow(()->new ResourceNotFoundException(
-				String.format(ErrorMessage.RESOURCE_NOT_FOUND_MESSAGE, id)));
+		Car car = carRepository.findCarById(id).orElseThrow(
+				() -> new ResourceNotFoundException(String.format(ErrorMessage.RESOURCE_NOT_FOUND_MESSAGE, id)));
 		return car;
 	}
-	
-	//************************************************
-	
+
+	// *********************************************************************************
+
 	public void updateCar(Long id, String imageId, CarDTO carDTO) {
 		
-		Car car=getCar(id);
+		Car car = getCar(id);
 		
-		if (car.getBuiltIn()) {
+		if(car.getBuiltIn()) { // builtIn kontrolu
 			throw new BadRequestException(ErrorMessage.NOT_PERMITTED_METHOD_MESSAGE);
 		}
 		
-		ImageFile imageFile=imageFileService.findImageById(imageId);
+		ImageFile imageFile  =  imageFileService.findImageById(imageId);
 		
-		//burada amac, verilen image daha once baska arac icin kullanilmis mi?
-		List<Car>carList=carRepository.findCarsByImageId(imageFile.getId());
+		// burada amaç, verilen image daha önce başka araç için kullanılmış mı ?
+		List<Car> carList = carRepository.findCarsByImageId(imageFile.getId());
 		
-		for(Car c:carList) {
-			//bana gelen car id'si ile yukaridaki list turundeki car id'leri esit olmalari lazim,
-			//eger esit degilse girilen image baska bir arac icin yuklenmis
-			if (car.getId().longValue()!=c.getId().longValue()) {
+		
+		for(Car c: carList) {
+			// bana gelen car Id si ile yukardakiList türündeki car Id leri eşit olmaları lazım,
+			//eğer eşit değilse girilenm image başka bir araç için yüklenmiş
+			if(car.getId().longValue()!=c.getId().longValue()) {
 				throw new ConflictException(ErrorMessage.IMAGE_USED_MESSAGE);
 			}
 			
@@ -135,11 +135,12 @@ public class CarService {
 		car.getImage().add(imageFile);
 		
 		carRepository.save(car);
+
 	}
 
-	//*******************DELETE*****************
+	//******************** DELETE**********************
 	
-		public void removeById(Long id) {
+	public void removeById(Long id) {
 		
 		Car car = getCar(id);
 		
@@ -148,39 +149,43 @@ public class CarService {
 		}
 		
 		carRepository.delete(car);
-		
-		
+	
 		
 	}
 	
+	// ---> EKLENDİ
+	public Car getCarById(Long id) {
+		Car car= carRepository.findById(id).orElseThrow(()->new 
+				ResourceNotFoundException(String.format(ErrorMessage.RESOURCE_NOT_FOUND_MESSAGE, id)));
+		return car;
+	}
+	
+
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 
 }
-
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-
-

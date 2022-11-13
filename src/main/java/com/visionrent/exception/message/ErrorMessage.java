@@ -17,6 +17,14 @@ public class ErrorMessage {
 	public final static String IMAGE_NOT_FOUND_MESSAGE = "ImageFile with id %s not found";
 	public final static String IMAGE_USED_MESSAGE = "ImageFile is used by other car";
 	
+	public final static String RESERVATION_TIME_INCORRECT_MESSAGE = "Reservation pick up time or drop off time not correct";
+	
+	public final static String CAR_NOT_AVAILABLE_MESSAGE = "Car is not available for selected time";
+	
+	public final static String RESERVATION_STATUS_CANT_CHANGE_MESSAGE = "Reservation can't be updated for Canceled or done reservations";
+	
+	
+	
 	
 
 }

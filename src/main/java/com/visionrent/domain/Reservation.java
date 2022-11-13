@@ -20,15 +20,16 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+
 @Getter
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
 
 @Entity
-@Table(name = "t_reservation")
+@Table(name="t_reservation")
 public class Reservation {
-
+	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
@@ -39,7 +40,7 @@ public class Reservation {
 	
 	@OneToOne
 	@JoinColumn(name = "user_id", referencedColumnName = "id")
-	private User user;
+	private User user ;
 	
 	@Column(nullable = false)
 	private LocalDateTime pickUpTime;
@@ -47,17 +48,19 @@ public class Reservation {
 	@Column(nullable = false)
 	private LocalDateTime dropOffTime;
 	
-	@Column(length = 150,nullable = false)
+	@Column(length = 150,  nullable = false)
 	private String pickUpLocation;
 	
-	@Column(length = 150,nullable = false)
+	@Column(length = 150,  nullable = false)
 	private String dropOffLocation;
 	
 	@Enumerated(EnumType.STRING)
-	@Column(length = 30, nullable = false)
+	@Column(length = 30,nullable = false)
 	private ReservationStatus status;
 	
 	@Column(nullable = false)
 	private Double totalPrice;
 	
+	
+
 }

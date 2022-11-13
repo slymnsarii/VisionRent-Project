@@ -18,5 +18,11 @@ public class ResponseMessage {
 	public final static String CAR_SAVED_RESPONSE_MESSAGE= "Car Successfully Saved";
 	public final static String CAR_UPDATE_RESPONSE_MESSAGE= "Car Successfully Updated";
 	public final static String CAR_DELETE_RESPONSE_MESSAGE= "Car Successfully Deleted";
+	
+	public final static String RESERVATION_CREATED_RESPONSE_MESSAGE= "Reservation Successfully Created";
+	public final static String RESERVATION_UPDATED_RESPONSE_MESSAGE= "Reservation Successfully Updated";
+	public final static String RESERVATION_DELETED_RESPONSE_MESSAGE= "Reservation Successfully Deleted";
+	
+	public final static String CAR_AVAILABLE_MESSAGE= "Car Availability calculated";
 
 }
