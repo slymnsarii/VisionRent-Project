@@ -15,6 +15,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -195,6 +196,40 @@ public class ReservationController {
 		return ResponseEntity.ok(reservationDTO);
 	}
 	
+	//***********  Customer veya Admin kendine ait olan reservasyon bilgilerini tümünü  PAGEABLE olarak getirsin  **********************
+		@GetMapping("/auth/all")
+		@PreAuthorize( "hasRole('ADMIN') or hasRole('CUSTOMER')  " )
+		public ResponseEntity<Page<ReservationDTO>> getAllUserReservations(
+				
+				@RequestParam("page") int page,
+				@RequestParam("size") int size,
+				@RequestParam("sort") String prop,//neye göre sıralanacağı belirtiliyor
+				@RequestParam(value="direction",
+										required = false, // direction required olmasın
+										defaultValue = "DESC") Direction direction )  {
+			Pageable pageable = PageRequest.of(page, size, Sort.by(direction, prop));
+			
+				User user = userService.getCurrentUser();
+				
+				Page<ReservationDTO> reservationDTOPage  = reservationService.findReservationPageByUser(user, pageable);
+				
+				return ResponseEntity.ok(reservationDTOPage);
+			
+		}
+		
+		//***************************** DELETE ***************************************
+		
+		@DeleteMapping("/admin/{id}/auth")
+		@PreAuthorize("hasRole('ADMIN')")
+		public ResponseEntity<VRResponse> deleteReservation(@PathVariable Long id) {
+			
+			reservationService.removeById(id);
+			
+			VRResponse response = new VRResponse(ResponseMessage.RESERVATION_DELETED_RESPONSE_MESSAGE, true);
+			
+			return ResponseEntity.ok(response);
+			
+		}
 	
 	
 	

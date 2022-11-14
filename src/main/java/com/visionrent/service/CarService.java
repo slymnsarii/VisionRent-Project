@@ -32,6 +32,9 @@ public class CarService {
 
 	@Autowired
 	private CarMapper carMapper;
+	
+	@Autowired
+	private ReservationService reservationService;
 
 	// *************************************
 
@@ -148,6 +151,13 @@ public class CarService {
 			throw new BadRequestException(ErrorMessage.NOT_PERMITTED_METHOD_MESSAGE);
 		}
 		
+		boolean exist=reservationService.existsByCar(car);
+		
+		//rezervasyon kontrolu
+		if (exist) {
+			throw new BadRequestException(ErrorMessage.CAR_USED_BY_RESERVATION_MESSAGE);
+		}
+		
 		carRepository.delete(car);
 	
 		
@@ -160,6 +170,9 @@ public class CarService {
 		return car;
 	}
 	
+	public List<Car> getAllCar() {
+		return carRepository.getAllBy();
+	}
 
 	
 	

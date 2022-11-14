@@ -47,15 +47,18 @@ public class UserService {
 	
 	private UserMapper userMapper;
 	
+	private ReservationService reservationService;
 	
 	
 	@Autowired
-	public UserService(UserRepository userRepository, RoleService roleService, @Lazy PasswordEncoder passwordEncoder, UserMapper userMapper) {
+	public UserService(UserRepository userRepository, RoleService roleService, @Lazy PasswordEncoder passwordEncoder,
+			UserMapper userMapper,ReservationService reservationService) {
 		super();
 		this.userRepository = userRepository;
 		this.roleService = roleService;
 		this.passwordEncoder = passwordEncoder;
 		this.userMapper = userMapper;
+		this.reservationService = reservationService;
 	}
 
 
@@ -309,46 +312,37 @@ public class UserService {
 		return roles;
 	}
 
+	// ********************** DELETE ***************************************
+	
+		public void removeUserById(Long id) {
+			User user = getById(id);
+			
+			// builtIn mi kontrol ediyoruz
+		     if(user.getBuiltIn()) {
+		    	 throw new BadRequestException(ErrorMessage.NOT_PERMITTED_METHOD_MESSAGE);
+		    	
+		     }
+		    
+	 boolean exist =  reservationService.existsByUser(user);
+			
+			 // reservasyon kontrolü
+			 if(exist) {
+				 throw new BadRequestException(ErrorMessage.CAR_USED_BY_RESERVATION_MESSAGE);
+			 }
+			
+		    
+		    
+		     userRepository.deleteById(id);
+		   
+			
+		}
 
-	public void removeUserById(Long id) {
-		User user = getById(id);
-		
-		// builtIn mi kontrol ediyoruz
-	     if(user.getBuiltIn()) {
-	    	 throw new BadRequestException(ErrorMessage.NOT_PERMITTED_METHOD_MESSAGE);
-	    	 
-	     }
-	     
-	     userRepository.deleteById(id);
-	    
-		
-	}
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
 
+		public List<User> getUsers() {
+			return userRepository.findAll() ;
+		}
+
+
+		
+		
 }

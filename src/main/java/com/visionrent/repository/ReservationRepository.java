@@ -12,6 +12,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
+import com.visionrent.domain.Car;
 import com.visionrent.domain.Reservation;
 import com.visionrent.domain.User;
 import com.visionrent.domain.enums.ReservationStatus;
@@ -60,6 +61,16 @@ public interface ReservationRepository extends JpaRepository<Reservation, Long>{
 	
 	@EntityGraph(attributePaths ={"car", "car.image", "user"} )
 	Optional<Reservation> findByIdAndUser(Long id, User user) ;
+
+
+	boolean existsByCar(Car car);
+
+
+	boolean existsByUser(User user);
+
+
+	@EntityGraph(attributePaths = {"car","user"})
+	List<Reservation> findAllBy();
 	
 }
 
