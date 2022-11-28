@@ -91,6 +91,23 @@ public ResponseEntity<Page<ContactMessageDTO>> getAllContactMessageWithPage(
 	
 	
 }
+
+//getPageDTO metodu
+private Page<ContactMessageDTO> getPageDTO(Page<ContactMessage> contactMessagePage){
+	// page sınıfına ait map metodunu kullanacağız
+	Page<ContactMessageDTO> dtoPage= contactMessagePage.map(
+			new java.util.function.Function<ContactMessage, ContactMessageDTO>(){
+				@Override
+				public ContactMessageDTO apply(ContactMessage contactMessage) {
+					
+					return contactMessageMapper.contactMessageToDTO(contactMessage);
+				}
+				
+			});
+	return dtoPage;
+	
+}
+
 // spesifik ContactMessage getirelim
 @GetMapping("/{id}")
 @PreAuthorize("hasRole('ADMIN')")
@@ -134,19 +151,5 @@ public  ResponseEntity<VRResponse> updateContactMessage( @PathVariable Long id ,
 	
 	return ResponseEntity.ok(vrResponse);
 }
-// getPageDTO metodu
-private Page<ContactMessageDTO> getPageDTO(Page<ContactMessage> contactMessagePage){
-	// page sınıfına ait map metodunu kullanacağız
-	Page<ContactMessageDTO> dtoPage= contactMessagePage.map(
-			new java.util.function.Function<ContactMessage, ContactMessageDTO>(){
-				@Override
-				public ContactMessageDTO apply(ContactMessage contactMessage) {
-					
-					return contactMessageMapper.contactMessageToDTO(contactMessage);
-				}
-				
-			});
-	return dtoPage;
-	
-}
+
 }

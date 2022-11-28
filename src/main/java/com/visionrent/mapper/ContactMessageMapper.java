@@ -18,8 +18,8 @@ public interface ContactMessageMapper {
 	ContactMessageDTO contactMessageToDTO(ContactMessage contactMessage);
 	
 	/*
-	contactMessageDTo.name = contactMessage.name;
-	contactMessageDTo.subject = contactMessage.subject;
+	contactMessageDTO.name = contactMessage.name;
+	contactMessageDTO.subject = contactMessage.subject;
 	
 	*/
 	
